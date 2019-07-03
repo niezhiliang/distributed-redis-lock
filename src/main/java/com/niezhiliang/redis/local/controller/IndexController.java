@@ -4,7 +4,6 @@ import com.niezhiliang.redis.local.aspect.RedisLock;
 import com.niezhiliang.redis.local.utils.LockUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.klock.annotation.Klock;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,9 +19,6 @@ import java.util.UUID;
 @RestController
 @Slf4j
 public class IndexController {
-
-    @Autowired
-    private HttpServletRequest request;
 
     @Autowired
     private LockUtils lockUtils;
@@ -55,17 +51,6 @@ public class IndexController {
     @RequestMapping(value = "test2")
     @RedisLock(lockKey = "helloAnno",lockTime = 5l,tryCount = 2,tryTime = 2)
     public String testAnno() {
-        log.info(Thread.currentThread().getName()+"抢到锁，返回成功");
-        return "success";
-    }
-
-    /**
-     * 注解的方式
-     * @return
-     */
-    @RequestMapping(value = "test3")
-    @Klock(waitTime = Long.MAX_VALUE)
-    public String testAnno2() {
         log.info(Thread.currentThread().getName()+"抢到锁，返回成功");
         return "success";
     }
